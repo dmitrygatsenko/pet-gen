@@ -1,0 +1,24 @@
+{
+  "name": "pet-gen",
+  "version": "1.0.0",
+  "description": "generate cute pets images",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dmitrygatsenko/cat-gen.git"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "author": "dmitriy.gatsenko@jetbi.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dmitrygatsenko/cat-gen/issues"
+  },
+  "homepage": "https://github.com/dmitrygatsenko/cat-gen#readme"
+}
