@@ -23,7 +23,7 @@ petsRouter.get('/dog', (req, res) => {
 });
 
 petsRouter.get('/cat', (req, res) => {
-    res.send(dogs[getRandomIndex(3)]);
+    res.send(cats[getRandomIndex(3)]);
 });
 
 const getRandomIndex = (base) => {
