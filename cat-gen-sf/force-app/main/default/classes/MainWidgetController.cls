@@ -7,9 +7,12 @@
 **/
 public with sharing class MainWidgetController {
     @AuraEnabled
-    public static String getPet(String animal){
+    public static String getPet(String pet){
         try {
-            return '';
+            HttpRequest req = new HttpRequest();
+            req.setMethod('GET');
+            req.setEndpoint('https://pets-gen.herokuapp.com/pets/' + pet);
+            return (new Http()).send(req).getBody();
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }

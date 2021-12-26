@@ -6,7 +6,26 @@
   @last modified by  : dmitriy.gatsenko@jetbi.com
 -->
 <template>
-    <div>
-        <img src={imgURL}>
-    </div>
+    <lightning-card>
+        <div class="slds-align_absolute-center">
+            <template if:true={load}>
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </template>
+            <lightning-radio-group 
+                name="radioGroup"
+                label="DOGS OR CATS?"
+                options={options}
+                value={value}
+                type="button"
+                onchange={disable}
+                >
+            </lightning-radio-group>
+        </div>
+        
+    </lightning-card>
+    <template if:true={petFetched}>
+        <div>
+            <img src={imgURL}>
+        </div>
+    </template>
 </template>
