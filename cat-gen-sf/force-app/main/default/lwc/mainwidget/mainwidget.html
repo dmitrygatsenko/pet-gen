@@ -2,27 +2,28 @@
   @description       : 
   @author            : dmitriy.gatsenko@jetbi.com
   @group             : 
-  @last modified on  : 12-25-2021
+  @last modified on  : 12-27-2021
   @last modified by  : dmitriy.gatsenko@jetbi.com
 -->
 <template>
-    <lightning-card>
-        <div class="slds-align_absolute-center">
-            <template if:true={load}>
-                <lightning-spinner alternative-text="Loading"></lightning-spinner>
-            </template>
-            <lightning-radio-group 
-                name="radioGroup"
-                label="DOGS OR CATS?"
-                options={options}
-                value={value}
-                type="button"
-                onchange={disable}
-                >
-            </lightning-radio-group>
-        </div>
-        
-    </lightning-card>
+    <template if:false={petFetched}>
+        <lightning-card title="PET GEN">
+            <div class="slds-align_absolute-center">
+                <template if:true={load}>
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </template>
+                <lightning-radio-group 
+                    name="radioGroup"
+                    label="DOGS OR CATS?"
+                    options={options}
+                    value={value}
+                    type="button"
+                    onchange={disable}
+                    >
+                </lightning-radio-group>
+            </div>
+        </lightning-card>
+    </template>
     <template if:true={petFetched}>
         <div>
             <img src={imgURL}>
