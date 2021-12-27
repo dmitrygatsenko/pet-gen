@@ -25,7 +25,7 @@ const getRandomPet = (pet, res) => {
             if (err) {
                 return res.status(500).send(err.message)
             }
-            res.send(rows[getRandomIndex(rows.length)])
+            res.send(rows[getRandomIndex(rows.length)].url)
         }
     )
 }
