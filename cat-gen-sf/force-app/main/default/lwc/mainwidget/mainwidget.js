@@ -1,10 +1,13 @@
 import { LightningElement } from 'lwc';
-import getPet from '@salesforce/apex/MainWidgetController.getPet'
-
-const FIRST_CAT = 'https://www.humanesociety.org/sites/default/files/styles/1240x698/public/2020-07/kitten-510651.jpg?h=f54c7448&itok=ZhplzyJ9';
-const SECOND_CAT = 'https://images.unsplash.com/photo-1615789591457-74a63395c990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZG9tZXN0aWMlMjBjYXR8ZW58MHx8MHx8&w=1000&q=80';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import getPet from '@salesforce/apex/MainWidgetController.getPet';
+import isRegistered from '@salesforce/apex/MainWidgetController.isRegistered';
+import register from '@salesforce/apex/MainWidgetController.register';
 
 export default class Mainwidget extends LightningElement {
+    somethingWentWrong = false;
+    registerRequired = false;
+    successRegistration = false;
     petFetched = false;
     imgURL = '';
     value = '';
@@ -22,6 +25,36 @@ export default class Mainwidget extends LightningElement {
         }
     ];
 
+    connectedCallback() {
+        this.login();
+    }
+
+    async login() {
+        const registered = await isRegistered();
+        if (!registered) {
+            this.registerRequired = true;
+            return;
+        }
+        this.successRegistration = true;
+    }
+
+    async submit() {
+        const email = this.template.querySelector(".register-email").value;
+        const password = this.template.querySelector(".register-password").value;
+        let success;
+        try {
+            success = await register({email, password});
+        }
+        catch (error) {
+            this.showToast('Error', error.message, 'error');
+            return;
+        }
+        if (success) {
+            this.registerRequired = false;
+            this.successRegistration = true;
+        }
+    }
+
     disable(event) {
         this.template.querySelector('lightning-radio-group').disabled = true;
         this.value = event.detail.value;
@@ -32,7 +65,15 @@ export default class Mainwidget extends LightningElement {
     }
 
     async getPet(pet) {
-        this.imgURL = await getPet({pet});
+        try {
+            this.imgURL = await getPet({pet});
+            console.log('imgurl = ' + this.imgURL);
+        }
+        catch (error) {
+            this.showToast('Error', error.message, 'error');
+            return;
+        }
+        this.successRegistration = false;
         this.petFetched = true;
         this.load = false;
     }
@@ -41,5 +82,14 @@ export default class Mainwidget extends LightningElement {
         if (this.intervalId) {
             clearInterval(this.intervalId);
         }
+    }
+
+    showToast(title, message, variant) {
+        const toastEvt = new ShowToastEvent({
+            title: title,
+            message: message,
+            variant: variant
+        });
+        this.dispatchEvent(toastEvt);
     }
 }
