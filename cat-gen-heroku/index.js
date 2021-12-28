@@ -43,7 +43,7 @@ const processRequest = (req, res, pet) => {
                     }                      
                 }
                 else {
-                    login.updateToken(email, res);
+                    res.status(401).send();
                 }
             }
         );
