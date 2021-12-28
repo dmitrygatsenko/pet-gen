@@ -21,24 +21,24 @@ petsRouter.get('/cat', (req, res) => {
 
 const processRequest = (req, res, pet) => {
     //let bodyData = '';
-    const token = req.header('Authorization');
-    db.get('SELECT Email FROM Users WHERE Token = $token',
-        {
-            $token: token
-        },
-        (error, row) => {
-            if (error) {
-                return res.status(500).send('Internal server error');
-            }
-            if (row) {
-                getRandomPet(pet, res);                   
-            }
-            else {
-                res.status(404).send();
-            }
-        }
-    );
-    //getRandomPet(pet, res);
+    //const token = req.header('Authorization');
+    // db.get('SELECT Email FROM Users WHERE Token = $token',
+    //     {
+    //         $token: token
+    //     },
+    //     (error, row) => {
+    //         if (error) {
+    //             return res.status(500).send('Internal server error');
+    //         }
+    //         if (row) {
+    //             getRandomPet(pet, res);                   
+    //         }
+    //         else {
+    //             res.status(404).send();
+    //         }
+    //     }
+    // );
+    getRandomPet(pet, res);
     // req.on('data', (data) => {
     //     bodyData += data;
     // });
