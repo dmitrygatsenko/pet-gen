@@ -54,7 +54,7 @@ loginRouter.get('/enter', (req, res) => {
                 if (row.password === password) {
                     if (row.Token) {
                         if (row.Token == token) {
-                            return res.status(201).send();
+                            return res.status(200).send();
                         }                      
                     }
                     else {
