@@ -101,6 +101,7 @@ const checkLogin = (req, res, pet, callback) => {
             if (error) {
                 return res.status(500).send('Internal server error');
             }
+            console.log('row = ' + row);
             //if (row) {
                 callback(pet, res);                   
             //}
