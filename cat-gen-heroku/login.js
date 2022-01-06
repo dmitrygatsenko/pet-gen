@@ -15,21 +15,35 @@ loginRouter.post('/registration', (req, res) => {
         const email = body.email;
         const password = body.password;
         const token = makeToken(10);
-        db.run('INSERT INTO Users (Email, Password, Token) VALUES ($email, $password, $token)',
+        db.get('SELECT Email FROM Users WHERE Email = $email',
             {
-                $email: email,
-                $password: password,
-                $token: token
+                $email: email
             },
-            function(error) {
+            (error, row) => {
                 if (error) {
                     return res.status(500).send('Internal server error');
                 }
-                expireInOneHour(email);
-                res.status(201).send(token);
+                if (row) {
+                    db.run('INSERT INTO Users (Email, Password, Token) VALUES ($email, $password, $token)',
+                        {
+                            $email: email,
+                            $password: password,
+                            $token: token
+                        },
+                        function(error) {
+                            if (error) {
+                                return res.status(500).send('Internal server error');
+                            }
+                            expireInOneHour(email);
+                            res.status(201).send(token);
+                        }
+                    );
+                }
+                else {
+                    return res.status(500).send('This email is already existing');
+                }
             }
         );
-        
     });
 });
 
@@ -101,7 +115,7 @@ const checkLogin = (req, res, pet, callback) => {
             if (error) {
                 return res.status(500).send('Internal server error');
             }
-            db.get('SELECT Email, Token, Password FROM Users',
+            db.all('SELECT Email, Token, Password FROM Users',
                 (error, rows) => {
                     console.log('rows = ' + rows);
                 }
