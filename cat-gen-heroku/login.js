@@ -103,7 +103,6 @@ const updateToken = (email, res) => {
 
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
-    console.log('')
     db.get('SELECT Email, Password, Token FROM Users',
         [],
         (error, row) => {
@@ -113,6 +112,7 @@ const checkLogin = (req, res, pet, callback) => {
             }
             console.log('row.Email = ' + row.Email);
             console.log('row.Token = ' + row.Token);
+            console.log('row.Password = ' + row.Password);
             if (row) {
                 callback(pet, res); 
             }
