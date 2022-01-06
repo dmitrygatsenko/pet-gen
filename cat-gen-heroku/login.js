@@ -105,8 +105,7 @@ const updateToken = (email, res) => {
 
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
-    console.log('token = ' + token);
-    db.get('SELECT Email FROM Users WHERE Token = $token',
+    db.get('SELECT Email email FROM Users WHERE Token = $token',
         {
             $token: token
         },
@@ -115,7 +114,7 @@ const checkLogin = (req, res, pet, callback) => {
                 console.error(error.message); 
                 return res.status(500).send('Internal server error');
             }
-            console.log('row = ' + row);
+            console.log('row = ' + row.email);
             callback(pet, res); 
             //if (row) {
                 //callback(pet, res);                   
