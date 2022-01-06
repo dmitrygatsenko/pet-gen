@@ -21,7 +21,6 @@ petsRouter.get('/cat', (req, res) => {
 
 const processRequest = (req, res, pet) => {
     login.checkLogin(req, res, pet, getRandomPet);
-    //getRandomPet(pet, res);
 }
 
 const getRandomPet = (pet, res) => {

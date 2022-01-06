@@ -92,7 +92,7 @@ const updateToken = (email, res) => {
 
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
-
+    console.log('token = ' + token);
     db.get('SELECT Email FROM Users WHERE Token = $token',
         {
             $token: token
