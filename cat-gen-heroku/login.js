@@ -24,39 +24,22 @@ loginRouter.post('/registration', (req, res) => {
         const password = body.password;
         const token = makeToken(10);
         console.log('req.end end');
-        db.get('SELECT Email FROM Users WHERE Email = $email',
+        db.run('INSERT OR FAIL INTO Users (Email, Password, Token) VALUES ($email, $password, $token)',
             {
-                $email: email
+                $email: email,
+                $password: password,
+                $token: token
             },
-            (error, row) => {
+            function(error) {
                 if (error) {
-                    console.log('SELECT ERROR');
-                    console.error(error.message);                  
-                    res.status(500).send('Internal server error');
-                }
-                if (!row) {
-                    db.run('INSERT INTO Users (Email, Password, Token) VALUES ($email, $password, $token)',
-                        {
-                            $email: email,
-                            $password: password,
-                            $token: token
-                        },
-                        function(error) {
-                            if (error) {
-                                console.log('INSERT ERROR');
-                                console.error(error.message);                               
-                                res.status(500).send('Internal server error');
-                            }
-                            else {
-                                expireInOneHour(email);
-                                res.status(201).send(token);
-                            }      
-                        }
-                    );
+                    console.log('INSERT ERROR');
+                    console.error(error.message);                               
+                    return res.status(409).send('Email already exists');
                 }
                 else {
-                    return res.status(500).send('This email is already existing');
-                }
+                    expireInOneHour(email);
+                    res.status(201).send(token);
+                }      
             }
         );
     });
@@ -111,6 +94,7 @@ const updateToken = (email, res) => {
         },
         function(error) {
             if (error) {
+                console.error(error.message); 
                 return res.status(500).send('Internal server error');
             }
             expireInOneHour(email);
@@ -128,14 +112,11 @@ const checkLogin = (req, res, pet, callback) => {
         },
         (error, row) => {
             if (error) {
+                console.error(error.message); 
                 return res.status(500).send('Internal server error');
             }
-            db.all('SELECT Email, Token, Password FROM Users',
-                (error, rows) => {
-                    console.log('rows = ' + rows);
-                }
-            );
             console.log('row = ' + row);
+            callback(pet, res); 
             //if (row) {
                 //callback(pet, res);                   
             //}
