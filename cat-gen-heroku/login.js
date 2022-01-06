@@ -101,9 +101,14 @@ const checkLogin = (req, res, pet, callback) => {
             if (error) {
                 return res.status(500).send('Internal server error');
             }
+            db.get('SELECT Email, Token, Password FROM Users',
+                (error, rows) => {
+                    console.log('rows = ' + rows);
+                }
+            );
             console.log('row = ' + row);
             //if (row) {
-                callback(pet, res);                   
+                //callback(pet, res);                   
             //}
             //else {
             //    res.status(404).send();
