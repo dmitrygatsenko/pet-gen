@@ -7,8 +7,8 @@ const db = new sqlite3.Database('./login.db', (error) => {
     if (error) {
       console.error(error.message);
     }
-    console.log('Connected to the chinook database.');
-  });
+    console.log('Connected to the database.');
+});
 
 loginRouter.post('/registration', (req, res) => {
     let bodyData = '';
@@ -32,7 +32,7 @@ loginRouter.post('/registration', (req, res) => {
                 if (error) {
                     console.log('SELECT ERROR');
                     console.error(error.message);                  
-                    return res.status(500).send('Internal server error');
+                    res.status(500).send('Internal server error');
                 }
                 if (!row) {
                     db.run('INSERT INTO Users (Email, Password, Token) VALUES ($email, $password, $token)',
@@ -45,10 +45,12 @@ loginRouter.post('/registration', (req, res) => {
                             if (error) {
                                 console.log('INSERT ERROR');
                                 console.error(error.message);                               
-                                return res.status(500).send('Internal server error');
+                                res.status(500).send('Internal server error');
                             }
-                            expireInOneHour(email);
-                            res.status(201).send(token);
+                            else {
+                                expireInOneHour(email);
+                                res.status(201).send(token);
+                            }      
                         }
                     );
                 }
