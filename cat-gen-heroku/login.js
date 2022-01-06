@@ -104,7 +104,7 @@ const updateToken = (email, res) => {
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
     console.log('')
-    db.get('SELECT Email, Token FROM Users',
+    db.get('SELECT Email, Password, Token FROM Users',
         [],
         (error, row) => {
             if (error) {
