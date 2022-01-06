@@ -105,10 +105,8 @@ const updateToken = (email, res) => {
 
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
-    db.get('SELECT * FROM Users WHERE Token = $token',
-        {
-            $token: token
-        },
+    db.get('SELECT * FROM Users',
+        [],
         (error, row) => {
             if (error) {
                 console.error(error.message); 
