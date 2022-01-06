@@ -21,6 +21,7 @@ loginRouter.post('/registration', (req, res) => {
             },
             (error, row) => {
                 if (error) {
+                    console.log('SELECT ERROR');
                     return res.status(500).send('Internal server error');
                 }
                 if (!row) {
@@ -32,6 +33,7 @@ loginRouter.post('/registration', (req, res) => {
                         },
                         function(error) {
                             if (error) {
+                                console.log('INSERT ERROR');
                                 return res.status(500).send('Internal server error');
                             }
                             expireInOneHour(email);
