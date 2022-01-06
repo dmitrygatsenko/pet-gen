@@ -54,8 +54,6 @@ loginRouter.get('/token', (req, res) => {
     req.on('end', () => {
         const body = JSON.parse(bodyData);
         const email = body.email;
-        //const password = body.password;
-
         updateToken(email, res);
     });
 });
@@ -105,16 +103,16 @@ const updateToken = (email, res) => {
 
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
-    db.get('SELECT * FROM Users WHERE Token = $token',
-        {
-            $token : token
-        },
+    console.log('')
+    db.get('SELECT Email, Token FROM Users',
+        [],
         (error, row) => {
             if (error) {
                 console.error(error.message); 
                 return res.status(500).send('Internal server error');
             }
-            console.log('row = ' + row);
+            console.log('row.Email = ' + row.Email);
+            console.log('row.Token = ' + row.Token);
             if (row) {
                 callback(pet, res); 
             }
