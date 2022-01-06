@@ -3,7 +3,12 @@ const sqlite3 = require('sqlite3');
 
 const loginRouter = express.Router();
 
-const db = new sqlite3.Database('./login.db');
+const db = new sqlite3.Database('./login.db', (error) => {
+    if (error) {
+      console.error(error.message);
+    }
+    console.log('Connected to the chinook database.');
+  });
 
 loginRouter.post('/registration', (req, res) => {
     let bodyData = '';
@@ -26,7 +31,7 @@ loginRouter.post('/registration', (req, res) => {
             (error, row) => {
                 if (error) {
                     console.log('SELECT ERROR');
-                    console.log(error);                   
+                    console.error(error.message);                  
                     return res.status(500).send('Internal server error');
                 }
                 if (!row) {
@@ -39,7 +44,7 @@ loginRouter.post('/registration', (req, res) => {
                         function(error) {
                             if (error) {
                                 console.log('INSERT ERROR');
-                                console.log(error);                                
+                                console.error(error.message);                               
                                 return res.status(500).send('Internal server error');
                             }
                             expireInOneHour(email);
