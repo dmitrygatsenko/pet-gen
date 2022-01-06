@@ -90,5 +90,26 @@ const updateToken = (email, res) => {
     );   
 }
 
+const checkLogin = (req, res, pet, callback) => {
+    const token = req.get('Authorization');
+
+    db.get('SELECT Email FROM Users WHERE Token = $token',
+        {
+            $token: token
+        },
+        (error, row) => {
+            if (error) {
+                return res.status(500).send('Internal server error');
+            }
+            if (row) {
+                callback(pet, res);                   
+            }
+            else {
+                res.status(404).send();
+            }
+        }
+    );
+}
+
 module.exports.router = loginRouter;
-module.exports.updateToken = updateToken;
+module.exports.checkLogin = checkLogin;

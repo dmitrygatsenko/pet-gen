@@ -20,52 +20,8 @@ petsRouter.get('/cat', (req, res) => {
 });
 
 const processRequest = (req, res, pet) => {
-    //let bodyData = '';
-    //const token = req.header('Authorization');
-    // db.get('SELECT Email FROM Users WHERE Token = $token',
-    //     {
-    //         $token: token
-    //     },
-    //     (error, row) => {
-    //         if (error) {
-    //             return res.status(500).send('Internal server error');
-    //         }
-    //         if (row) {
-    //             getRandomPet(pet, res);                   
-    //         }
-    //         else {
-    //             res.status(404).send();
-    //         }
-    //     }
-    // );
-    getRandomPet(pet, res);
-    // req.on('data', (data) => {
-    //     bodyData += data;
-    // });
-    // req.on('end', () => {
-    //     const body = JSON.parse(bodyData);
-    //     const email = body.email;
-    //     const password = body.password;
-    //     const token = body.token;
-    //     db.get('SELECT Email, Token FROM Users WHERE Email = $email',
-    //         {
-    //             $email: email
-    //         },
-    //         (error, row) => {
-    //             if (error) {
-    //                 return res.status(500).send('Internal server error');
-    //             }
-    //             if (row.Token) {
-    //                 if (row.Token == token) {
-    //                     getRandomPet(pet, res);
-    //                 }                      
-    //             }
-    //             else {
-    //                 res.status(401).send();
-    //             }
-    //         }
-    //     );
-    // });
+    login.checkLogin(req, res, pet, getRandomPet);
+    //getRandomPet(pet, res);
 }
 
 const getRandomPet = (pet, res) => {
