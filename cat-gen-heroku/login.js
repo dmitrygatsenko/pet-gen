@@ -7,22 +7,26 @@ const db = new sqlite3.Database('./login.db');
 
 loginRouter.post('/registration', (req, res) => {
     let bodyData = '';
+    console.log('start');
     req.on('data', (data) => {
         bodyData += data;
+        console.log('req.data');
     });
     req.on('end', () => {
+        console.log('req.end start');
         const body = JSON.parse(bodyData);
         const email = body.email;
         const password = body.password;
         const token = makeToken(10);
+        console.log('req.end end');
         db.get('SELECT Email FROM Users WHERE Email = $email',
             {
                 $email: email
             },
             (error, row) => {
                 if (error) {
-                    console.log(error);
                     console.log('SELECT ERROR');
+                    console.log(error);                   
                     return res.status(500).send('Internal server error');
                 }
                 if (!row) {
@@ -34,8 +38,8 @@ loginRouter.post('/registration', (req, res) => {
                         },
                         function(error) {
                             if (error) {
-                                console.log(error);
                                 console.log('INSERT ERROR');
+                                console.log(error);                                
                                 return res.status(500).send('Internal server error');
                             }
                             expireInOneHour(email);
