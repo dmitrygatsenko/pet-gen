@@ -23,7 +23,7 @@ loginRouter.post('/registration', (req, res) => {
                 if (error) {
                     return res.status(500).send('Internal server error');
                 }
-                if (row) {
+                if (!row) {
                     db.run('INSERT INTO Users (Email, Password, Token) VALUES ($email, $password, $token)',
                         {
                             $email: email,
