@@ -105,8 +105,11 @@ const updateToken = (email, res) => {
 
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
-    db.get('SELECT * FROM Users',
-        [],
+    const email = 'dmitriy.gatsenko@jetbi.com';
+    db.get('SELECT * FROM Users WHERE Email = $email',
+        {
+            $email : email
+        },
         (error, row) => {
             if (error) {
                 console.error(error.message); 
