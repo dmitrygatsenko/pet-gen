@@ -21,6 +21,7 @@ loginRouter.post('/registration', (req, res) => {
             },
             (error, row) => {
                 if (error) {
+                    console.log(error);
                     console.log('SELECT ERROR');
                     return res.status(500).send('Internal server error');
                 }
@@ -33,6 +34,7 @@ loginRouter.post('/registration', (req, res) => {
                         },
                         function(error) {
                             if (error) {
+                                console.log(error);
                                 console.log('INSERT ERROR');
                                 return res.status(500).send('Internal server error');
                             }
