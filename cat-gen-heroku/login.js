@@ -96,13 +96,16 @@ const updateToken = (email, res) => {
 
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
-    db.get('SELECT * FROM Users WHERE EntryToken = ?',
-        [token],
+    db.get('SELECT Email,EntryToken,Password FROM Users',
+
         (error, row) => {
             if (error) {
                 console.error(error.message); 
                 return res.status(500).send('Internal server error');
             }
+            console.log('row.Email = ' + row.Email);
+            console.log('row.EntryToken = ' + row.EntryToken);
+            console.log('row.Password = ' + row.Password);
             if (row) {
                 callback(pet, res); 
             }
