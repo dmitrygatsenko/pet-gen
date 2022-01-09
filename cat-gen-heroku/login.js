@@ -55,7 +55,7 @@ loginRouter.get('/token', (req, res) => {
 
 const expireInOneHour = (email, token) => {
     setTimeout(() => {
-        db.run('UPDATE Users SET Token = null WHERE Email = $email',
+        db.run('UPDATE Users SET EntryToken = null WHERE Email = $email',
             {
                 $email: email
             },
