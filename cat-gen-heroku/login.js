@@ -55,10 +55,8 @@ loginRouter.get('/token', (req, res) => {
 
 const expireInOneHour = (email, token) => {
     setTimeout(() => {
-        db.run('UPDATE Users SET EntryToken = null WHERE Email = $email',
-            {
-                $email: email
-            },
+        db.run('UPDATE Users SET EntryToken = null WHERE Email = ?',
+            [email],
             function(error) {
                 if (error) {
                     console.error('Token expiration error: ' + error.message);
@@ -98,10 +96,8 @@ const updateToken = (email, res) => {
 
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
-    db.get('SELECT * FROM Users WHERE EntryToken = $entryToken',
-        {
-            $entryToken: token
-        },
+    db.get('SELECT * FROM Users WHERE EntryToken = ?',
+        [token],
         (error, row) => {
             if (error) {
                 console.error(error.message); 
