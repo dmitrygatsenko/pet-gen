@@ -24,6 +24,7 @@ loginRouter.post('/registration', (req, res) => {
         const password = body.password;
         const token = makeToken(10);
         console.log('req.end end');
+        console.log(typeof token);
         db.run('INSERT OR FAIL INTO Users (Email, Password, Token) VALUES ($email, $password, $token)',
             {
                 $email: email,
