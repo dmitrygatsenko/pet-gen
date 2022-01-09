@@ -25,7 +25,7 @@ loginRouter.post('/registration', (req, res) => {
         const token = makeToken(10);
         console.log('req.end end');
         console.log(typeof token);
-        db.run('INSERT OR FAIL INTO Users (Email, Password, Token) VALUES ($email, $password, $token)',
+        db.run('INSERT OR FAIL INTO Users (Email, Password, EntryToken) VALUES ($email, $password, $token)',
             {
                 $email: email,
                 $password: password,
@@ -104,7 +104,7 @@ const updateToken = (email, res) => {
 
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
-    db.get('SELECT Email, Password, Token FROM Users',
+    db.get('SELECT Email, Password, EntryToken FROM Users',
         [],
         (error, row) => {
             if (error) {
@@ -112,7 +112,7 @@ const checkLogin = (req, res, pet, callback) => {
                 return res.status(500).send('Internal server error');
             }
             console.log('row.Email = ' + row.Email);
-            console.log('row.Token = ' + row.Token);
+            console.log('row.Token = ' + row.EntryToken);
             console.log('row.Password = ' + row.Password);
             if (row) {
                 callback(pet, res); 
