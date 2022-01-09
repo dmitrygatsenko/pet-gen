@@ -53,7 +53,7 @@ loginRouter.get('/token', (req, res) => {
     });
 });
 
-const expireInOneHour = (email, token) => {
+const expireInOneHour = (email) => {
     setTimeout(() => {
         db.run('UPDATE Users SET EntryToken = null WHERE Email = ?',
             [email],
@@ -63,7 +63,7 @@ const expireInOneHour = (email, token) => {
                 }
             }
         );
-    })
+    }, 60000 * 60);
 }
 
 const makeToken = length => {
@@ -96,16 +96,13 @@ const updateToken = (email, res) => {
 
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
-    db.get('SELECT Email,EntryToken,Password FROM Users',
-
+    db.get('SELECT * FROM Users WHERE EntryToken = ?',
+        [token],
         (error, row) => {
             if (error) {
                 console.error(error.message); 
                 return res.status(500).send('Internal server error');
             }
-            console.log('row.Email = ' + row.Email);
-            console.log('row.EntryToken = ' + row.EntryToken);
-            console.log('row.Password = ' + row.Password);
             if (row) {
                 callback(pet, res); 
             }
