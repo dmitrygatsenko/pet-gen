@@ -12,19 +12,14 @@ const db = new sqlite3.Database('./login.db', (error) => {
 
 loginRouter.post('/registration', (req, res) => {
     let bodyData = '';
-    console.log('start');
     req.on('data', (data) => {
         bodyData += data;
-        console.log('req.data');
     });
     req.on('end', () => {
-        console.log('req.end start');
         const body = JSON.parse(bodyData);
         const email = body.email;
         const password = body.password;
         const token = makeToken(10);
-        console.log('req.end end');
-        console.log(typeof token);
         db.run('INSERT OR FAIL INTO Users (Email, Password, EntryToken) VALUES ($email, $password, $token)',
             {
                 $email: email,
@@ -33,7 +28,6 @@ loginRouter.post('/registration', (req, res) => {
             },
             function(error) {
                 if (error) {
-                    console.log('INSERT ERROR');
                     console.error(error.message);                               
                     return res.status(409).send('Email already exists');
                 }
@@ -67,7 +61,7 @@ const expireInOneHour = (email, token) => {
             },
             function(error) {
                 if (error) {
-                    console.log('Token expiration error');
+                    console.error('Token expiration error: ' + error.message);
                 }
             }
         );
@@ -86,7 +80,7 @@ const makeToken = length => {
 
 const updateToken = (email, res) => {
     const token = makeToken(10);
-    db.run('UPDATE Users SET Token = $token WHERE Email = $email',
+    db.run('UPDATE Users SET EntryToken = $token WHERE Email = $email',
         {
             $email: email,
             $token: token
@@ -104,25 +98,18 @@ const updateToken = (email, res) => {
 
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
-    db.get('SELECT Email, Password, EntryToken FROM Users',
-        [],
+    db.get('SELECT * FROM Users WHERE EntryToken = $token',
+        {
+            $token: token
+        },
         (error, row) => {
             if (error) {
                 console.error(error.message); 
                 return res.status(500).send('Internal server error');
             }
-            console.log('row.Email = ' + row.Email);
-            console.log('row.Token = ' + row.EntryToken);
-            console.log('row.Password = ' + row.Password);
             if (row) {
                 callback(pet, res); 
             }
-            //if (row) {
-                //callback(pet, res);                   
-            //}
-            //else {
-            //    res.status(404).send();
-            //}
         }
     );
 }
