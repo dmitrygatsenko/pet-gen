@@ -98,9 +98,9 @@ const updateToken = (email, res) => {
 
 const checkLogin = (req, res, pet, callback) => {
     const token = req.get('Authorization');
-    db.get('SELECT * FROM Users WHERE EntryToken = $token',
+    db.get('SELECT * FROM Users WHERE EntryToken = $entryToken',
         {
-            $token: token
+            $entryToken: token
         },
         (error, row) => {
             if (error) {
