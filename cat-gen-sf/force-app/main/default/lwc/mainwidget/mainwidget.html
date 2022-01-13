@@ -2,7 +2,7 @@
   @description       : 
   @author            : dmitriy.gatsenko@jetbi.com
   @group             : 
-  @last modified on  : 12-28-2021
+  @last modified on  : 01-13-2022
   @last modified by  : dmitriy.gatsenko@jetbi.com
 -->
 <template>
@@ -12,7 +12,7 @@
         </template>
         <template if:true={registerRequired}>
             <lightning-input class="register-email" label="Email" type="email"></lightning-input>
-            <lightning-input class="register-password" label="Password"></lightning-input>
+            <lightning-input class="register-password" label="Password" type="password"></lightning-input>
             <div class="slds-m-top_x-small slds-align_absolute-center">
                 <lightning-button name="Register" label="Register" onclick={submit} variant="brand"></lightning-button>
             </div>

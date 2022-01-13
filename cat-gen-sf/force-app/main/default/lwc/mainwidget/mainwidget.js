@@ -52,6 +52,10 @@ export default class Mainwidget extends LightningElement {
         if (success) {
             this.registerRequired = false;
             this.successRegistration = true;
+            this.showToast('Success', 'PET-GEN: Successfully registered', 'success')
+        }
+        else {
+            this.showToast('Error', 'PET-GEN: User with such username already exists or wrong password', 'error')
         }
     }
 
