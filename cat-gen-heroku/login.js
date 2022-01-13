@@ -45,7 +45,6 @@ loginRouter.get('/token', (req, res) => {
     req.on('data', (data) => {
         bodyData += data;
     });
-
     req.on('end', () => {
         const body = JSON.parse(bodyData);
         const email = body.email;
