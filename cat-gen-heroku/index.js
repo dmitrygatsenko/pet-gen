@@ -8,10 +8,11 @@ const PORT = process.env.PORT || 5000;
 const db = new sqlite3.Database('./pets.db');
 
 const petsRouter = express.Router();
-app.use('/pets', petsRouter);
 app.use('/pets', login.verifyLogin);
-app.use('/auth', login.router);
+app.use('/pets', petsRouter);
 app.use('/auth', express.urlencoded({ extended: true}), express.json());
+app.use('/auth', login.router);
+
 
 petsRouter.get('/dog', (req, res) => {
     getRandomPet('dog', res);
