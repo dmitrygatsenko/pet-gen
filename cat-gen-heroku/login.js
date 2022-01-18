@@ -12,7 +12,7 @@ const db = new sqlite3.Database('./login.db', (error) => {
     console.log('Connected to the database.');
 });
 
-loginRouter.post('/register', express.json(), async (req, res) => {
+loginRouter.post('/register', express.urlencoded({ extended: true}), express.json(), async (req, res) => {
     //const body = JSON.parse(bodyData);
     console.log('req.body.email = ' + req.body.email);
     console.log('req.body.password = ' + req.body.password);
