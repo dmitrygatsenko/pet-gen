@@ -12,19 +12,20 @@ const db = new sqlite3.Database('./login.db', (error) => {
     console.log('Connected to the database.');
 });
 
-loginRouter.post('/register', express.urlencoded({ extended: true}), express.json(), async (req, res) => {
+loginRouter.post('/register', async (req, res) => {
     //const body = JSON.parse(bodyData);
-    console.log('req.body.email = ' + req.body.email);
-    console.log('req.body.password = ' + req.body.password);
-    const email = req.body.email;
-    const password = await bcrypt.hash(req.body.password, /**saltRounds*/10);
+    const { email, password } = JSON.parse(req.body);
+    // console.log('req.body.email = ' + req.body.email);
+    // console.log('req.body.password = ' + req.body.password);
+    // const email = req.body.email;
+    const passwordCrypted = await bcrypt.hash(password, /**saltRounds*/10);
     //const token = makeToken(10);
     try {
         await db.run(
             'INSERT OR FAIL INTO Users (Email, Password) VALUES ($email, $password)',
             {
                 $email: email,
-                $password: password//,
+                $password: passwordCrypted//,
                 //$token: token
             }
         )
