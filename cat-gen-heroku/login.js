@@ -37,6 +37,7 @@ loginRouter.post('/register', async (req, res) => {
         return res.status(409).send(error.message);
     }
     // Create token
+    console.log('process.env.TOKEN_KEY = ' + process.env.TOKEN_KEY);
     res.status(201).send(createToken({email}, process.env.TOKEN_KEY, "2h"));
 });
 
