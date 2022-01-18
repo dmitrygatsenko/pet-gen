@@ -61,7 +61,7 @@ public with sharing class MainWidgetController {
             'POST', 
             'https://pets-gen.herokuapp.com/auth/login', 
             createJSON(new Map<String, String>{ 'email' => settings.Email__c, 'password' => settings.Password__c}),
-            null
+            new Map<String, String>{'Content-Type' => 'application/json'}
         );
         Integer statusCode = res.getStatusCode();
         if (statusCode == 200) {

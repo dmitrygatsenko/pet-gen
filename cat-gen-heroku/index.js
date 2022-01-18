@@ -13,7 +13,6 @@ app.use('/pets', petsRouter);
 app.use('/auth', express.urlencoded({ extended: true}), express.json());
 app.use('/auth', login.router);
 
-
 petsRouter.get('/dog', (req, res) => {
     getRandomPet('dog', res);
 });
