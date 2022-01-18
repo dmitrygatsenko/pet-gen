@@ -14,6 +14,8 @@ const db = new sqlite3.Database('./login.db', (error) => {
 
 loginRouter.post('/register', express.json(), async (req, res) => {
     //const body = JSON.parse(bodyData);
+    console.log('req.body.email = ' + req.body.email);
+    console.log('req.body.password = ' + req.body.password);
     const email = req.body.email;
     const password = await bcrypt.hash(req.body.password, /**saltRounds*/10);
     //const token = makeToken(10);
