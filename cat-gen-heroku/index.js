@@ -9,19 +9,17 @@ const db = new sqlite3.Database('./pets.db');
 
 const petsRouter = express.Router();
 app.use('/pets', petsRouter);
-app.use('/login', login.router);
+app.use('/auth', login.router);
+app.use(login.verifyLogin);
 
 petsRouter.get('/dog', (req, res) => {
-    processRequest(req, res, 'dog');
+    getRandomPet('dog', res);
 });
 
 petsRouter.get('/cat', (req, res) => { 
-    processRequest(req, res, 'cat');
+    getRandomPet('cat', res);
+    //processRequest(req, res, 'cat');
 });
-
-const processRequest = (req, res, pet) => {
-    login.checkLogin(req, res, pet, getRandomPet);
-}
 
 const getRandomPet = (pet, res) => {
     db.all(

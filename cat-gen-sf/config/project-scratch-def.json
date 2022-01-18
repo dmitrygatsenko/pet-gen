@@ -1,13 +1,20 @@
 {
-  "orgName": "Demo company",
+  "orgName": "Forwardlane Company",
   "edition": "Developer",
-  "features": ["EnableSetPasswordInApi"],
+  "features": ["AuthorApex", "ContactsToMultipleAccounts"],
+  "release": "current",
   "settings": {
     "lightningExperienceSettings": {
       "enableS1DesktopEnabled": true
     },
     "mobileSettings": {
       "enableS1EncryptedStoragePref2": false
+    },
+    "enhancedNotesSettings": {
+        "enableEnhancedNotes": true
+    },
+    "chatterSettings": {
+        "enableChatter": true
     }
   }
 }

@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : dmitriy.gatsenko@jetbi.com
  * @group             : 
- * @last modified on  : 12-28-2021
+ * @last modified on  : 01-18-2022
  * @last modified by  : dmitriy.gatsenko@jetbi.com
 **/
 public with sharing class MainWidgetController {
@@ -50,7 +50,7 @@ public with sharing class MainWidgetController {
         try {
             PetGenCredentials__c settings = PetGenCredentials__c.getOrgDefaults();
             if (settings.lastModifiedDate <= DateTime.now().addHours(-1)) {
-                String token = getToken(settings);
+                String token = login(settings);
                 updateCredentials(settings, token);
             }
             return new Credentials(settings.Email__c, settings.Password__c, settings.Token__c);
@@ -60,11 +60,11 @@ public with sharing class MainWidgetController {
         }
     }
 
-    private static String getToken(PetGenCredentials__c settings) {
+    private static String login(PetGenCredentials__c settings) {
         HttpResponse res = makeCallout(
-            'GET', 
-            'https://pets-gen.herokuapp.com/login/token', 
-            createJSON(new Map<String, String>{ 'email' => settings.Email__c}),
+            'POST', 
+            'https://pets-gen.herokuapp.com/auth/login', 
+            createJSON(new Map<String, String>{ 'email' => settings.Email__c, 'password' => settings.Password__c}),
             null
         );
         Integer statusCode = res.getStatusCode();
@@ -82,7 +82,7 @@ public with sharing class MainWidgetController {
         try {
             HttpResponse res = makeCallout(
                 'POST', 
-                'https://pets-gen.herokuapp.com/login/registration', 
+                'https://pets-gen.herokuapp.com/auth/register', 
                 createJSON(new Map<String, String>{ 'email' => email, 'password' => password}),
                 null
             );
