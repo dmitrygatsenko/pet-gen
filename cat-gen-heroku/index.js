@@ -10,7 +10,7 @@ const db = new sqlite3.Database('./pets.db');
 const petsRouter = express.Router();
 app.use('/pets', petsRouter);
 app.use('/auth', login.router);
-app.use(login.verifyLogin);
+app.use('/pets', login.verifyLogin);
 
 petsRouter.get('/dog', (req, res) => {
     getRandomPet('dog', res);

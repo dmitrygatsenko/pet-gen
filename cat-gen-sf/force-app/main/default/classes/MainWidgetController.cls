@@ -20,11 +20,8 @@ public with sharing class MainWidgetController {
             if (statusCode == 200) {
                 return res.getBody();
             }
-            else if (statusCode == 401) {
-                throw new AuraHandledException('PetGen: Unauthorized');
-            }
-            else if (statusCode == 500) {
-                throw new AuraHandledException('PetGen: Internal Server Error');
+            else if (statusCode == 401 || statusCode == 500) {
+                throw new AuraHandledException('PetGen: ' + res.getBody());
             }
             return '';
         } catch (Exception e) {
@@ -45,8 +42,7 @@ public with sharing class MainWidgetController {
         }
     }
 
-    @AuraEnabled
-    public static Credentials login() {
+    private static Credentials login() {
         try {
             PetGenCredentials__c settings = PetGenCredentials__c.getOrgDefaults();
             if (settings.lastModifiedDate <= DateTime.now().addHours(-1)) {
@@ -72,7 +68,7 @@ public with sharing class MainWidgetController {
             return res.getBody();
         }
         else if (statusCode == 500) {
-            throw new AuraHandledException('PetGen: Internal Server Error');
+            throw new AuraHandledException('PetGen: ' + res.getBody());
         }
         return null;
     }
@@ -87,7 +83,6 @@ public with sharing class MainWidgetController {
                 null
             );
             Integer statusCode = res.getStatusCode();
-            System.debug('Status code = ' + statusCode);
             if (statusCode == 201) {
                 createCredentials(email, password, res.getBody());
                 return true;
