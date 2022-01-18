@@ -14,7 +14,9 @@ const db = new sqlite3.Database('./login.db', (error) => {
 
 loginRouter.post('/register', async (req, res) => {
     //const body = JSON.parse(bodyData);
+    console.log(req.body);
     const { email, password } = JSON.parse(req.body);
+
     // console.log('req.body.email = ' + req.body.email);
     // console.log('req.body.password = ' + req.body.password);
     // const email = req.body.email;
