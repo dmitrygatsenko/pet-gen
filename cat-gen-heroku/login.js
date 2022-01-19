@@ -112,7 +112,7 @@ const verifyLogin = (req, res, next) => {
         return res.status(403).send("A token is required for authentication");
     }
     try {
-        jwt.verify(token, process.env.TOKEN_KEY);
+        jwt.verify(token, TOKEN_KEY);
     } catch (err) {
         return res.status(401).send("Invalid Token");
     }
