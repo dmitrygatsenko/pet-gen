@@ -17,6 +17,7 @@ public with sharing class MainWidgetController {
                 new Map<String, String>{'Authorization' => cred.token}//createJSON(new Map<String, String>{ 'email' => cred.email, 'password' => cred.password, 'token' => cred.token})
             );
             Integer statusCode = res.getStatusCode();
+            System.debug('res.getBody() = ' + res.getBody());
             if (statusCode == 200) {
                 return res.getBody();
             }
@@ -83,7 +84,6 @@ public with sharing class MainWidgetController {
                 new Map<String, String>{'Content-Type' => 'application/json'}
             );
             Integer statusCode = res.getStatusCode();
-            System.debug('statusCode = ' + statusCode);
             if (statusCode == 201) {
                 createCredentials(email, password, res.getBody());
                 return true;

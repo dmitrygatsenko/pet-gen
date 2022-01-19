@@ -46,7 +46,7 @@ export default class Mainwidget extends LightningElement {
             success = await register({email, password});
         }
         catch (error) {
-            this.showToast('Error', error.message, 'error');
+            this.showToast('Error', error.message ? error.message : error.body.message, 'error');
             return;
         }
         if (success) {
@@ -71,10 +71,9 @@ export default class Mainwidget extends LightningElement {
     async getPet(pet) {
         try {
             this.imgURL = await getPet({pet});
-            console.log('imgurl = ' + this.imgURL);
         }
         catch (error) {
-            this.showToast('Error', error.message, 'error');
+            this.showToast('Error', error.message ? error.message : error.body.message, 'error');
             return;
         }
         this.successRegistration = false;
