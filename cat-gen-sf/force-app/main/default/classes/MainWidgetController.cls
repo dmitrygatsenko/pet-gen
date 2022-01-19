@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : dmitriy.gatsenko@jetbi.com
  * @group             : 
- * @last modified on  : 01-18-2022
+ * @last modified on  : 01-19-2022
  * @last modified by  : dmitriy.gatsenko@jetbi.com
 **/
 public with sharing class MainWidgetController {
@@ -83,11 +83,13 @@ public with sharing class MainWidgetController {
                 new Map<String, String>{'Content-Type' => 'application/json'}
             );
             Integer statusCode = res.getStatusCode();
+            System.debug('statusCode = ' + statusCode);
             if (statusCode == 201) {
                 createCredentials(email, password, res.getBody());
                 return true;
             }
             else if (statusCode == 500) {
+                
                 return false;
             }
             return false;
