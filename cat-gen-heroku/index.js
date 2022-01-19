@@ -19,7 +19,6 @@ petsRouter.get('/dog', (req, res) => {
 
 petsRouter.get('/cat', (req, res) => { 
     getRandomPet('cat', res);
-    //processRequest(req, res, 'cat');
 });
 
 const getRandomPet = (pet, res) => {
