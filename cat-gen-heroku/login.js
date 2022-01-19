@@ -5,6 +5,8 @@ const sqlite3 = require('sqlite3');
 
 const loginRouter = express.Router();
 
+const TOKEN_KEY="h23iteriojh0lmnjhrtrfdsewjk671"
+
 const db = new sqlite3.Database('./login.db', (error) => {
     if (error) {
       console.error(error.message);
@@ -37,8 +39,8 @@ loginRouter.post('/register', async (req, res) => {
         return res.status(409).send(error.message);
     }
     // Create token
-    console.log('process.env.TOKEN_KEY = ' + process.env.TOKEN_KEY);
-    res.status(201).send(createToken({email}, process.env.TOKEN_KEY, "2h"));
+    console.log('process.env.TOKEN_KEY = ' + TOKEN_KEY);
+    res.status(201).send(createToken({email}, TOKEN_KEY, "2h"));
 });
 
 loginRouter.post('/login', express.json(), async (req, res) => {
@@ -57,7 +59,7 @@ loginRouter.post('/login', express.json(), async (req, res) => {
             return res.status(401).send('Invalid email');
         }
         if (user && (await bcrypt.compare(password, user.Password))) {
-            return res.status(200).send(createToken({email}, process.env.TOKEN_KEY, "2h"));
+            return res.status(200).send(createToken({email}, TOKEN_KEY, "2h"));
         }
         return res.status(401).send('Invalid Credentials');
     }
