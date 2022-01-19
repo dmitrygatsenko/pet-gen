@@ -14,10 +14,9 @@ public with sharing class MainWidgetController {
                 'GET', 
                 'https://pets-gen.herokuapp.com/pets/' + pet, 
                 null,
-                new Map<String, String>{'Authorization' => cred.token}//createJSON(new Map<String, String>{ 'email' => cred.email, 'password' => cred.password, 'token' => cred.token})
+                new Map<String, String>{'Authorization' => cred.token}
             );
             Integer statusCode = res.getStatusCode();
-            System.debug('res.getBody() = ' + res.getBody());
             if (statusCode == 200) {
                 return res.getBody();
             }
