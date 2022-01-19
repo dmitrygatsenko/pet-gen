@@ -15,22 +15,14 @@ const db = new sqlite3.Database('./login.db', (error) => {
 });
 
 loginRouter.post('/register', async (req, res) => {
-    //const body = JSON.parse(bodyData);
-    console.log(req.body);
     const { email, password } = req.body;
-
-    // console.log('req.body.email = ' + req.body.email);
-    // console.log('req.body.password = ' + req.body.password);
-    // const email = req.body.email;
     const passwordCrypted = await bcrypt.hash(password, /**saltRounds*/10);
-    //const token = makeToken(10);
     try {
         await db.run(
             'INSERT OR FAIL INTO Users (Email, Password) VALUES ($email, $password)',
             {
                 $email: email,
-                $password: passwordCrypted//,
-                //$token: token
+                $password: passwordCrypted
             }
         )
     }
@@ -38,17 +30,11 @@ loginRouter.post('/register', async (req, res) => {
         console.error(error.message);
         return res.status(409).send(error.message);
     }
-    // Create token
-    console.log('process.env.TOKEN_KEY = ' + TOKEN_KEY);
     res.status(201).send(createToken({email}, TOKEN_KEY, "2h"));
 });
 
 loginRouter.post('/login', express.json(), async (req, res) => {
-    // const body = JSON.parse(bodyData);
     const { email, password } = req.body;
-    //await bcrypt.hash(req.body.password, /**saltRounds*/10);
-
-    //check whether user exists
     let user;
     try {
         user = await db.get(
@@ -67,8 +53,6 @@ loginRouter.post('/login', express.json(), async (req, res) => {
         console.error(error.message); 
         return res.status(500).send(error.message);
     }
-    
-    //updateToken(email, res);
 });
 
 const createToken = (obj, secret, expiration) => {
