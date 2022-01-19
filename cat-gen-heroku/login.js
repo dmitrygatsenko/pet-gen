@@ -65,47 +65,6 @@ const createToken = (obj, secret, expiration) => {
     );
 }
 
-// const expireInOneHour = (email) => {
-//     setTimeout(() => {
-//         db.run('UPDATE Users SET EntryToken = null WHERE Email = ?',
-//             [email],
-//             function(error) {
-//                 if (error) {
-//                     console.error('Token expiration error: ' + error.message);
-//                 }
-//             }
-//         );
-//     }, 60000 * 60);
-// }
-
-// const makeToken = length => {
-//     var result           = '';
-//     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-//     var charactersLength = characters.length;
-//     for ( var i = 0; i < length; i++ ) {
-//         result += characters.charAt(Math.floor(Math.random() * charactersLength));
-//     }
-//     return result;
-// }
-
-// const updateToken = (email, res) => {
-//     const token = makeToken(10);
-//     db.run('UPDATE Users SET EntryToken = $token WHERE Email = $email',
-//         {
-//             $email: email,
-//             $token: token
-//         },
-//         function(error) {
-//             if (error) {
-//                 console.error(error.message); 
-//                 return res.status(500).send('Internal server error');
-//             }
-//             expireInOneHour(email);
-//             res.status(200).send(token);
-//         }
-//     );   
-// }
-
 const verifyLogin = (req, res, next) => {
     const token = req.get('Authorization');
     if (!token) {
@@ -117,19 +76,6 @@ const verifyLogin = (req, res, next) => {
         return res.status(401).send("Invalid Token");
     }
     return next();
-    
-    // db.get('SELECT * FROM Users WHERE EntryToken = ?',
-    //     [token],
-    //     (error, row) => {
-    //         if (error) {
-    //             console.error(error.message); 
-    //             return res.status(500).send('Internal server error');
-    //         }
-    //         if (row) {
-    //             callback(pet, res); 
-    //         }
-    //     }
-    // );
 }
 
 module.exports.router = loginRouter;
