@@ -44,6 +44,7 @@ loginRouter.post('/login', express.json(), async (req, res) => {
         if (!user) {
             return res.status(401).send('Invalid email');
         }
+        console.log('user.Password = ' + user.Password)
         if (user && (await bcrypt.compare(password, user.Password))) {
             return res.status(200).send(createToken({email}, TOKEN_KEY, "2h"));
         }
